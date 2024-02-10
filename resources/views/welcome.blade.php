@@ -24,6 +24,16 @@
             </nav>
                 <div class="container-xxl">
                     <div class="row">
+                        <div>
+                            <div class="mb-3" style="width: 500px;">
+                                <label for="formGroupExampleInput" class="form-label">Sort By</label>
+                                <select onchange="sortBy(this)" class="form-control">
+                                    <option value="">Select</option>
+                                    <option value="id">By ID</option>
+                                    <option value="name">By Name</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="col-md-6">
                             <div id="records">
                                 <table class="table">
@@ -47,41 +57,45 @@
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-body">
-                                    <form id="userform" method="post" action="{{ route('store')}}" enctype="multipart/form-data">
-                                        @csrf
-                                        <div class="mb-3">
-                                            <label for="formGroupExampleInput" class="form-label">Name</label>
-                                            <input type="text" name="name" id="name" class="form-control" id="formGroupExampleInput" placeholder="Name">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="formGroupExampleInput2" class="form-label">Address</label>
-                                            <input type="text" name="address" id="address" class="form-control" id="formGroupExampleInput2" placeholder="Address">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="formGroupExampleInput2" class="form-label">Gender</label>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="gender" id="male" value="male" checked>
-                                                <label class="form-check-label" for="exampleRadios1">
-                                                  Male
-                                                </label>
-                                              </div>
-                                              <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="gender" id="female" value="female">
-                                                <label class="form-check-label" for="exampleRadios2">
-                                                  Female
-                                                </label>
-                                              </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="formGroupExampleInput2" class="form-label">Uplod Image</label>
-                                            <input type="file" class="form-control-file" id="image">
-                                        </div>
-                                        <p id="errormsg"></p>
-                                        <div class="mb-3">
+                                    <div id="form">
+                                        <form id="userform" method="post" action="{{ route('store')}}" enctype="multipart/form-data">
+                                            @csrf
+                                            <input type="hidden" id="id">
+                                            <div class="mb-3">
+                                                <label for="formGroupExampleInput" class="form-label">Name</label>
+                                                <input type="text" name="name" id="name" class="form-control" id="formGroupExampleInput" placeholder="Name">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="formGroupExampleInput2" class="form-label">Address</label>
+                                                <input type="text" name="address" id="address" class="form-control" id="formGroupExampleInput2" placeholder="Address">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="formGroupExampleInput2" class="form-label">Gender</label>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="gender" id="male" value="male">
+                                                    <label class="form-check-label" for="exampleRadios1">
+                                                      Male
+                                                    </label>
+                                                  </div>
+                                                  <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="gender" id="female" value="female">
+                                                    <label class="form-check-label" for="exampleRadios2">
+                                                      Female
+                                                    </label>
+                                                  </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="formGroupExampleInput2" class="form-label">Uplod Image</label>
+                                                <input type="file" class="form-control-file" id="image">
+                                            </div>
+                                            <p id="errormsg"></p>
+                                            <div class="mb-3">
 
-                                            <button type="submit" class="btn btn-primary" id="exampleFormControlFile1">Save</button>
-                                        </div>
-                                    </form>
+                                                <button type="submit" class="btn btn-primary" id="exampleFormControlFile1">Save</button>
+                                            </div>
+                                        </form>
+                                    </div>
+
 
                                 </div>
                             </div>
