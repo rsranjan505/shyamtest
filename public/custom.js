@@ -9,7 +9,7 @@ $('form#userform').submit(function(e) {
 
     var ele = $("#errormsg");
     if(name == "" || address == "" ){
-        ele.text('Name or Address missing');
+        ele.text('Name or Address field required');
         ele.css('color','red');
         return 0;
     }
@@ -86,7 +86,7 @@ function loadData(data=null){
                     <td><img id="img" onclick="downloadImg('${element.image}')" src="${element.image}" width="45px"> </img> </td>
                     <td> ${element.address} </td>
                     <td> ${element.gender} </td>
-                    <td> <button class="btn btn-primary" onClick="updateData('${element.id}')">Edit</button> | <button type="button" class="btn btn-danger" onClick="deleteData('${element.id}')">Delete</button> | <a href="">View</a> </td></tr>`;
+                    <td> <button class="btn btn-primary" onClick="updateData('${element.id}')">Edit</button> | <button type="button" class="btn btn-danger" onClick="deleteData('${element.id}')">Delete</button> | <button type="button" class="btn btn-info" onClick="showData('${element.id}')">View</button> </td></tr>`;
         });
         content += "</tbody></table>";
         $('#records').html(content);
@@ -98,11 +98,15 @@ function loadData(data=null){
 
 
 //Download Image Dta
-// function downloadImg(img){
+function downloadImg(img){
 
-//     $("<a>").attr("href", img).attr("download", "img.png").appendTo("body").click().remove();
-//     alert(img);
-// }
+    var a = $("<a>")
+    .attr("href", img)
+    .attr("download", "img.png")
+    .appendTo("body");
+    a[0].click();
+    a.remove();
+}
 
 
 //Delete object from local storage
@@ -176,15 +180,16 @@ function updateData(id){
 
         var ele = $("#errormsg");
         if(name == "" || address == "" ){
-            ele.text('Name or Address missing');
+            ele.text('Name or Address field required');
             ele.css('color','red');
             return 0;
         }
         ele.text("");
         // ele.css('color','red');
-        const path = image !=null ? (window.URL || window.webkitURL).createObjectURL(image) :'';
-
         const objWithIdIndex = datas.findIndex((obj) => obj.id == id);
+
+        const path = image !=null ? (window.URL || window.webkitURL).createObjectURL(image) :datas[objWithIdIndex].image;
+
         datas[objWithIdIndex].name = name;
         datas[objWithIdIndex].address = address;
         datas[objWithIdIndex].gender = gender;
@@ -194,6 +199,46 @@ function updateData(id){
 
         setLocalStorageData(datas);
         loadData();
+    });
+}
+
+
+//View User Data
+function showData(id){
+    datas = getLocalStorageData();
+    // const objWithIdIndex = datas.findIndex((obj) => obj.id == id);
+    const editdata = datas.filter( user => user.id == id );
+
+        var form = `<form method="post"  enctype="multipart/form-data">
+
+        <div class="mb-3">
+            <label for="formGroupExampleInput" class="form-label">Name</label>
+            <input type="text" disabled value="${editdata[0].name}" class="form-control" id="formGroupExampleInput" placeholder="Name">
+        </div>
+        <div class="mb-3">
+            <label for="formGroupExampleInput2" class="form-label">Address</label>
+            <input type="text" disabled value="${editdata[0].address}" class="form-control" id="formGroupExampleInput2" placeholder="Address">
+        </div>
+        <div class="mb-3">
+            <label for="formGroupExampleInput2" class="form-label">Gender</label>
+            <div class="form-check">
+                <label class="form-check-label" for="exampleRadios1">
+                ${editdata[0].gender == 'male' ? 'Male' : 'Female'}
+                </label>
+            </div>
+        </div>
+        <div class="mb-3">
+            <img src="${editdata[0].image}" width="55px;" />
+        </div>
+
+        <div class="mb-3">
+            <button id="cancel" type="button" class="btn btn-primary" >Cancel</button>
+        </div>
+    </form>`;
+
+    $('#form').html(form);
+    $('#cancel').click(function() {
+        location.reload();
     });
 }
 
